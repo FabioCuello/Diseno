@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Cover Template · Bootstrap</title>
+    <!-- map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <!-- map css -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/6d11b81203.js"></script>
+    <!-- AnimatedMarker -->
+    <script type="text/javascript" src="MovingMarker.js"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <!-- javascript_bootstrap_DatePicker -->
+    <script src="bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker.css">
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/6d11b81203.js"></script>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
+</head>
+
+<body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <h3 class="masthead-brand colorsettings">Cover</h3>
+
+            </div>
+        </header>
+
+        <main role="main" class="inner cover">
+            <h1 class="cover-heading colorsettings">Cover your page.</h1>
+            <p class="lead colorsettings">Cover is a one-page template for building simple and beautiful home pages.
+                Download, edit
+                the text, and add your own fullscreen background photo to make it your own.</p>
+            <p class="lead">
+                <!-- buttom 1 -->
+                <button type="button" id="bmodal1" class="btn btn-lg btn-secondary">Seguir Mapa</button>
+
+                <!-- buttom 2-->
+                <button type="button" id="bmodal2" class="btn btn-lg btn-secondary">Consultar</button>
+
+                <!-- modals -->
+                <div id="modal1" class="modal modalcss" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 style="color:#212529;" class="cover-heading">Selecciona fecha</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <!-- modal-body -->
+                            <div class="modal-body">
+                                <div class="shadowBox" id="box1">
+                                    <div class="box2">
+                                        <div class="lat">
+                                            <label>Latitud:<p id="lat" class="paragraph"> </p></label>
+
+                                        </div>
+                                        <div class="long">
+                                            <label>Longitud:<p id="lon" class="paragraph"> </p></label>
+                                        </div>
+                                        <div class="time">
+                                            <label>Fecha:<p id="date" class="paragraph"> </p></label>
+                                        </div>
+                                        <div>
+                                            <label>Tiempo:<p id="time" class="paragraph"> </p></label>
+                                        </div>
+                                    </div>
+
+                                    <div id="mapid"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary">Buscar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- modal 2 -->
+                <div id="modal-date" class="modal modalcss" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-fluid" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 style="color:#212529;" class="cover-heading">Selecciona fecha</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <!-- modal-body -->
+                            <div class="modal-body">
+                                <!-- bootstrap-datepicker -->
+                                <div class="input-group date datepickerwb input-daterange" data-provide="datepicker">
+                                    <p>Desde: </p><input id="initdate" type="text" class="form-control">
+                                    <div class="input-group-addon">
+                                        <i class="far fa-calendar-minus"> </i>
+                                    </div>
+                                    <p style="padding-left: 15px;"> Hasta: </p>
+                                    <input type="text" id="finaldate" class="form-control">
+                                    <div class="input-group-addon">
+                                        <i class="far fa-calendar-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="hidden">
+                                    <h1>asdadasd</h1>
+                                </div>
+                                <div>
+                                    <div id="mapid2"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="search" class="btn btn-secondary">Buscar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- information in the collapse buttom -->
+                <div class="collapse" id="collapseExample">
+                    <div class="shadowBox card card-body" id="box1">
+                        <div id="mapid"></div>
+                    </div>
+                </div>
+            </p>
+        </main>
+
+        <footer class="mastfoot mt-auto">
+            <div class="inner">
+                <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
+                        href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+<script src="jsclientside.js"></script>
+<script src="consult.js"></script>
+<script src="index.js"></script>
+
+
+</html>
