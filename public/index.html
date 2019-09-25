@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Cover Template · Bootstrap</title>
+    <title>Gps taxi tracker</title>
     <!-- map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -21,21 +21,26 @@
     <!-- AnimatedMarker -->
     <script type="text/javascript" src="MovingMarker.js"></script>
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- moments -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <!-- bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-    <!-- javascript_bootstrap_DatePicker -->
-    <script src="bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="bootstrap-datepicker/css/bootstrap-datepicker.css">
+    <!-- datetimpickerbootstrap -->
+    <script
+        src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/src/js/bootstrap-datetimepicker.js">
+    </script>
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- other bootstrap css -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- bootstrap-datetimepicker css -->
+    <link
+        href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/build/css/bootstrap-datetimepicker.css"
+        rel="stylesheet" />
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/6d11b81203.js"></script>
 
@@ -64,33 +69,29 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
             <div class="inner">
-                <h3 class="masthead-brand colorsettings">Cover</h3>
+                <h3 class="masthead-brand colorsettings"></h3>
 
             </div>
         </header>
 
         <main role="main" class="inner cover">
-            <h1 class="cover-heading colorsettings">Cover your page.</h1>
-            <p class="lead colorsettings">Cover is a one-page template for building simple and beautiful home pages.
-                Download, edit
-                the text, and add your own fullscreen background photo to make it your own.</p>
+            <img src="taxi.png" alt="">
+            <h1 class="cover-heading colorsettings">GPS taxi tracker</h1>
+            <p class="lead colorsettings">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lorem
+                metus, convallis ac cursus blandit.</p>
             <p class="lead">
                 <!-- buttom 1 -->
-                <button type="button" id="bmodal1" class="btn btn-lg btn-secondary">Seguir Mapa</button>
+                <button type="button" style="color:black" id="bmodal1" class="btn btn-lg btn-warning">Seguir
+                    Taxi</button>
 
                 <!-- buttom 2-->
-                <button type="button" id="bmodal2" class="btn btn-lg btn-secondary">Consultar</button>
+                <button type="button" style="color:black" id="bmodal2" class="btn btn-lg btn-warning">Consultar</button>
 
                 <!-- modals -->
                 <div id="modal1" class="modal modalcss" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 style="color:#212529;" class="cover-heading">Selecciona fecha</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+
                             <!-- modal-body -->
                             <div class="modal-body">
                                 <div class="shadowBox" id="box1">
@@ -122,30 +123,41 @@
                 </div>
                 <!-- modal 2 -->
                 <div id="modal-date" class="modal modalcss" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-fluid" role="document">
+                    <div class="modal-dialog modal-lg modal-fluid" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 style="color:#212529;" class="cover-heading">Selecciona fecha</h5>
+                                <h1 style="color:black;" class="lead colorsettings">
+                                    Selecciona el margen de fechas que
+                                    deseas buscar!
+                                </h1>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <!-- modal-body -->
                             <div class="modal-body">
-                                <!-- bootstrap-datepicker -->
-                                <div class="input-group date datepickerwb input-daterange" data-provide="datepicker">
-                                    <p>Desde: </p><input id="initdate" type="text" class="form-control">
-                                    <div class="input-group-addon">
-                                        <i class="far fa-calendar-minus"> </i>
+                                <div class="row">
+                                    <div class='col-md-6 col-sm-6 col-xs-6'>
+                                        <div class="form-group">
+                                            <div class='input-group date' id='datetimepicker6'>
+                                                <input id="initdate" type='text' class="form-control"
+                                                    placeholder="Fecha de inicio" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p style="padding-left: 15px;"> Hasta: </p>
-                                    <input type="text" id="finaldate" class="form-control">
-                                    <div class="input-group-addon">
-                                        <i class="far fa-calendar-minus"></i>
+                                    <div class='col-md-6 col-sm-6 col-xs-6'>
+                                        <div class="form-group">
+                                            <div class='input-group date' id='datetimepicker7'>
+                                                <input id="finaldate" type='text' class="form-control"
+                                                    placeholder="Fecha de finalización" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="hidden">
-                                    <h1>asdadasd</h1>
                                 </div>
                                 <div>
                                     <div id="mapid2"></div>
@@ -169,7 +181,7 @@
 
         <footer class="mastfoot mt-auto">
             <div class="inner">
-                <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
+                <p> Template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a
                         href="https://twitter.com/mdo">@mdo</a>.</p>
             </div>
         </footer>

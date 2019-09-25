@@ -101,8 +101,6 @@ app.post("/consult", function (req, res) {
             };
         };
     });
-
-
 })
 //listen the port 3000 for http protocol
 app.listen(3000, function () {

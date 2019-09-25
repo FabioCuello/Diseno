@@ -123,6 +123,8 @@ body {
     height: 20rem;
     width: 100%;
     margin: 5% auto;
+    position: relative;
+    z-index: 10;
 }
 
 .box2 {
@@ -136,4 +138,17 @@ body {
 
 .hidden {
     display: none;
+}
+
+.ui-datepicker {
+    position: relative;
+    z-index: 9999 !important;
+}
+
+.modal-lg {
+    max-width: 80%;
+}
+
+img {
+    width: 20%;
 }
