@@ -52,8 +52,8 @@ $("#search").on("click", function () {
             console.log("ENTRAAAA")
             var response = JSON.parse(xhr2.responseText);
             response.forEach(function (positions) {
-                vectorCoord.push([positions.lat * 0.00001, positions.lon * 0.0001]);
-                var myMarkers = L.marker([positions.lat * 0.00001, positions.lon * 0.0001], {
+                vectorCoord.push([positions.lat, positions.lon]);
+                var myMarkers = L.marker([positions.lat, positions.lon], {
                         icon: taximarker
                     })
                     .bindPopup('<p>LAT : </p>' + positions.lat + "\n" + '<p>LON : </p>' + positions.lon);

@@ -29,10 +29,12 @@ server.bind(PORT, HOST);
 //handler the incoming connections
 server.on('message', function (message, remote) {
     // ----------------------------------------------------------------------
-    var newdate = gpsdate.syrus_js(message);
-    data2send.time = newdate;
-    data2send.lat = parseInt(message.slice(16, 24));
-    data2send.long = parseInt(message.slice(24, 32));
+    var newdate = String(message).split(",");
+    var newdateLat = parseFloat(newdate[0]);
+    var newdateLong = parseFloat(newdate[1]);
+    data2send.time = parseInt(newdate[2]);
+    data2send.lat = parseFloat(newdateLat.toFixed(5))
+    data2send.long = parseFloat(newdateLong.toFixed(4))
     // insert into db
     var query = connection.query('INSERT INTO diseno (time, lat, lon) VALUES (?,?,?)', [data2send.time, data2send.lat, data2send.long], function (error, results, fields) {
         if (error) throw error;

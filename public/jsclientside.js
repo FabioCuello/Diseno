@@ -75,6 +75,7 @@ function check() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
+            console.log(response)
             // make the innerhtml be equal to the response.lat, .long and .time attributes
             lat.innerHTML = response.lat;
             lon.innerHTML = response.lon;
@@ -82,7 +83,7 @@ function check() {
             console.log(timeObject)
             date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
             time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
-            var posGPS = [response.lat * 0.00001, response.lon * 0.0001];
+            var posGPS = [response.lat, response.lon];
             // This should only go in this condition only one time, (this is to setting the firt marker)
             if (firstIteration == false) {
                 //set map in the new center, a zoom 20
