@@ -7,7 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Gps taxi tracker</title>
+    <title>GPS Taxi Tracker</title>
+    <!-- Fuente titulo-->
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <!-- Fuente texto-->
+    <link href="https://fonts.googleapis.com/css?family=Krub&display=swap" rel="stylesheet">
     <!-- map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -75,21 +79,21 @@
         </header>
 
         <main role="main" class="inner cover">
-            <img src="taxi.png" alt="">
-            <h1 class="cover-heading colorsettings">GPS taxi tracker</h1>
-            <p class="lead colorsettings">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lorem
-                metus, convallis ac cursus blandit.</p>
+            <img src="loc.png" alt="">
+            <h1 class="cover-heading colorsettings titulo">GPS Taxi Tracker</h1>
+            <p class="lead colorsettings texto">Aquí puede visualizar la ubicación actual del vehículo o consultar dónde
+                estuvo en un determinado periodo de tiempo.</p>
             <p class="lead">
                 <!-- buttom 1 -->
-                <button type="button" style="color:black" id="bmodal1" class="btn btn-lg btn-warning">Seguir
-                    Taxi</button>
+                <button type="button" id="bmodal1" class="btn btn-lg btn-warning estilos">Seguir
+                    taxi</button>
 
                 <!-- buttom 2-->
-                <button type="button" style="color:black" id="bmodal2" class="btn btn-lg btn-warning">Consultar</button>
+                <button type="button" id="bmodal2" class="btn btn-lg btn-warning estilos">Consultar</button>
 
                 <!-- modals -->
                 <div id="modal1" class="modal modalcss" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
 
                             <!-- modal-body -->
@@ -97,17 +101,21 @@
                                 <div class="shadowBox" id="box1">
                                     <div class="box2">
                                         <div class="lat">
-                                            <label>Latitud:<p id="lat" class="paragraph"> </p></label>
+                                            <label class="texto1">Latitud:<p id="lat" class="paragraph texto"> </p>
+                                            </label>
 
                                         </div>
                                         <div class="long">
-                                            <label>Longitud:<p id="lon" class="paragraph"> </p></label>
+                                            <label class="texto1">Longitud:<p id="lon" class="paragraph texto"> </p>
+                                            </label>
                                         </div>
                                         <div class="time">
-                                            <label>Fecha:<p id="date" class="paragraph"> </p></label>
+                                            <label class="texto1">Fecha:<p id="date" class="paragraph texto"> </p>
+                                            </label>
                                         </div>
                                         <div>
-                                            <label>Tiempo:<p id="time" class="paragraph"> </p></label>
+                                            <label class="texto1">Tiempo:<p id="time" class="paragraph texto"> </p>
+                                            </label>
                                         </div>
                                     </div>
 
@@ -115,8 +123,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary">Buscar</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary estilob"
+                                    data-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -126,9 +134,9 @@
                     <div class="modal-dialog modal-lg modal-fluid" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 style="color:black;" class="lead colorsettings">
-                                    Selecciona el margen de fechas que
-                                    deseas buscar!
+                                <h1 class="lead colorsettings texto1">
+                                    Seleccione la franja de tiempo que
+                                    desea consultar.
                                 </h1>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -164,8 +172,9 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="search" class="btn btn-secondary">Buscar</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" id="search" class="btn btn-warning estilos">Buscar</button>
+                                <button type="button" class="btn btn-secondary estilob"
+                                    data-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>

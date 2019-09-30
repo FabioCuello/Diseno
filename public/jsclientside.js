@@ -101,7 +101,7 @@ function check() {
                     posGPS,
                     posGPS
                 ], {
-                    color: 'black'
+                    color: '#FACB01'
                 });
                 polyline.addTo(mymap);
                 firstIteration = true;
