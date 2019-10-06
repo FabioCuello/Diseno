@@ -1,49 +1,43 @@
+require('dotenv').config();
+var dgram = require('dgram');
 const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host: "database-1.cgejhtdvpmhk.us-east-1.rds.amazonaws.com",
-    user: "admin",
-    password: "password",
-    database: "diseno",
+var express = require("express");
+var bodyParser = require("body-parser");
+
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB,
 });
 // Define PORT & HOST of the UDP server which will act as a sniffer
 var PORT = 50010;
 var HOST = '';
-// Incomporate the "dgram library" with require('dgram')
-var dgram = require('dgram');
+
 // this dgram librery will enable to use udp sockets, creating a server with it
 var server = dgram.createSocket('udp4');
-// ---------------------------------------------
-// transform from gps time to unix time (milliseconds from 1970)
-gpsdate = require(__dirname + "/gpsdate.js");
-// object to send
-var data2send = {
-    lat: "",
-    long: "",
-    time: "",
-};
-
-// ------------------------------
 // bind the port and host to the server socket
 server.bind(PORT, HOST);
 
-//handler the incoming connections
+//handler the incoming udp connections
 server.on('message', function (message, remote) {
-    // ----------------------------------------------------------------------
     var newdate = String(message).split(",");
     var newdateLat = parseFloat(newdate[0]);
     var newdateLong = parseFloat(newdate[1]);
-    data2send.time = parseInt(newdate[2]);
-    data2send.lat = parseFloat(newdateLat.toFixed(5))
-    data2send.long = parseFloat(newdateLong.toFixed(4))
+    var data2send = {
+        lat: parseFloat(newdateLat.toFixed(5)),
+        long: parseFloat(newdateLong.toFixed(4)),
+        time: parseInt(newdate[2])
+    };
     // insert into db
-    var query = connection.query('INSERT INTO diseno (time, lat, lon) VALUES (?,?,?)', [data2send.time, data2send.lat, data2send.long], function (error, results, fields) {
+    var query = pool.query('INSERT INTO diseno (time, lat, lon) VALUES (?,?,?)', [data2send.time, data2send.lat, data2send.long], function (error, results, fields) {
         if (error) throw error;
         else {
             // set data2send properties with the last pushed item in data array
             console.log(query.sql);
         }
     });
-    // ----------------------------------------------------------------------
 });
 // listener 
 server.on('listening', function () {
@@ -51,11 +45,7 @@ server.on('listening', function () {
     console.log('UDP Server listening on ' + address.address + ':' + address.port);
 });
 // -----------------------------------------------------------------------------
-// Incomporate the "express librery". Express is a nodejs framework which 
-// enable to use some of their funcionalities as routing. also help us to organice 
-// and structure our code. Also init app will ejecute this express module
-var express = require("express");
-var bodyParser = require("body-parser");
+
 // init express
 var app = express();
 // this makes public folder
@@ -71,9 +61,8 @@ app.get("/", function (req, res) {
 })
 // make capable the server RESPONSE an http get for the route "/data"
 app.get("/data", function (req, res) {
-    // --------------------------------------------------------------
     // open database
-    connection.query('SELECT * FROM `diseno` ORDER BY num DESC LIMIT 1 ', function (err, results, fields) {
+    pool.query('SELECT * FROM `diseno` ORDER BY num DESC LIMIT 1 ', function (err, results, fields) {
         if (err) {
             console.log("error in query " + err)
         } else {
@@ -91,7 +80,7 @@ app.post("/consult", function (req, res) {
     var initDate = req.body.initDate;
     var finalDate = req.body.finalDate;
     console.log(initDate + " and " + finalDate);
-    connection.query('SELECT * FROM `diseno` WHERE time BETWEEN (?) AND (?)', [initDate, finalDate], function (err, results, fields) {
+    pool.query('SELECT * FROM `diseno` WHERE time BETWEEN (?) AND (?)', [initDate, finalDate], function (err, results, fields) {
         if (err) {
             console.log("error in query " + err)
         } else {

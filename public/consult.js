@@ -45,16 +45,6 @@ $("#search").on("click", function () {
         }
         return
     }
-    // get init date and final date
-    // init date 
-    // 14/09/2019 22:03 = A.split(" ")
-    // A = [[14/09/2019],[22:03]]
-    // B=A[0] = 14/09/2019
-    // A[1] = 22:03
-    // B.split("/") = B=[[14],[09],[2019]]
-    // new Date(año,mes,dia,hora,minuto,sec,mil) = 30 de enero de 2019 hora, minutos
-    // date.parse(new Date(año,mes,dia,hora,minuto,sec,mil))= milisegundos desde 1970 hasta la fecha de 30 de enero...
-
     var input1 = $("#initdate").val().split(" ");
     var input2 = $("#finaldate").val().split(" ");
     //init date
@@ -79,16 +69,10 @@ $("#search").on("click", function () {
 
     // init vectorCoord empty
     vectorCoord = [];
-    // VECTOR = [[LAT1,LONG1],[LAT2,LONG2]....]
+
 
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState == 4 && xhr2.status == 200) {
-            // vector = [OBJETO1, OBJETO2, ...]
-            // OBJETO1 {
-            // LAT:121231
-            // LON:12312312
-            // }
-            // If a result is ready
             var response = JSON.parse(xhr2.responseText);
             // push every lat and lon into the vectorCoord
             response.forEach(function (positions) {
