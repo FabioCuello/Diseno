@@ -26,7 +26,6 @@ var xhr2 = new XMLHttpRequest();
 
 // When search is press them...
 $("#search").on("click", function () {
-    // 
     try {
         // remove polyline and marker
         mymap2.removeLayer(polyline2Map);

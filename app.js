@@ -3,7 +3,8 @@ var dgram = require('dgram');
 const mysql = require('mysql');
 var express = require("express");
 var bodyParser = require("body-parser");
-
+var search
+var taxi
 const pool = mysql.createPool({
     connectionLimit: 10,
     host: process.env.DB_HOST,
@@ -28,10 +29,11 @@ server.on('message', function (message, remote) {
     var data2send = {
         lat: parseFloat(newdateLat.toFixed(5)),
         long: parseFloat(newdateLong.toFixed(4)),
-        time: parseInt(newdate[2])
+        time: parseInt(newdate[2]),
+        device: newdate[3]
     };
     // insert into db
-    var query = pool.query('INSERT INTO diseno (time, lat, lon) VALUES (?,?,?)', [data2send.time, data2send.lat, data2send.long], function (error, results, fields) {
+    var query = pool.query('INSERT INTO diseno (time, lat, lon,device) VALUES (?,?,?,?)', [data2send.time, data2send.lat, data2send.long, data2send.device], function (error, results, fields) {
         if (error) throw error;
         else {
             // set data2send properties with the last pushed item in data array
@@ -60,12 +62,17 @@ app.get("/", function (req, res) {
     res.sendFile("index.html");
 })
 // make capable the server RESPONSE an http get for the route "/data"
-app.get("/data", function (req, res) {
+app.post("/data", function (req, res) {
+    taxi = req.body.taxi;
+    if (taxi == "C") {
+        taxi = ["A", "B"];
+    };
     // open database
-    pool.query('SELECT * FROM `diseno` ORDER BY num DESC LIMIT 1 ', function (err, results, fields) {
+    pool.query('SELECT * FROM `diseno` WHERE device in (?) ORDER BY num DESC LIMIT 1 ', [taxi], function (err, results, fields) {
         if (err) {
             console.log("error in query " + err)
         } else {
+            console.log(results);
             if (results.length != 0) {
                 //select the last data 
                 //send data2send object to the js client side

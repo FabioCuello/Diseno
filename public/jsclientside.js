@@ -53,37 +53,99 @@ var lat = document.getElementById("lat");
 var lon = document.getElementById("lon");
 var time = document.getElementById("time");
 var date = document.getElementById("date");
-// Instance a XMLHttpRequest object
-var xhr = new XMLHttpRequest();
-//Execute check function every 2secs
-setInterval(check, 2000);
+var vel = document.getElementById("vel");
+var lat2 = document.getElementById("lat2");
+var lon2 = document.getElementById("lon2");
+var time2 = document.getElementById("time2");
+var date2 = document.getElementById("date2");
 // define a counter in 0
 var firstIteration = false;
 var marker
 var myMovingMarker
 var polyline
+var cicle
+// Instance a XMLHttpRequest object
+var xhr = new XMLHttpRequest();
 
-function check() {
-    // open method is required because it allowed us to 
-    // create an get request 
-    xhr.open('GET', '/data', true);
-    //send the get request
-    xhr.send();
 
-    //look if the state of the request changed
-    //If this happpen, whe have a valid reponseText
+$("#ras").click(function () {
+    firstIteration = false;
+
+
+    const taxi = $("#inputGroupSelect01").val();
+    if (taxi == "A") {
+        $("#A").css("display", "block");
+        $("#B").css("display", "none");
+    } else if (taxi == "B") {
+        $("#B").css("display", "block");
+        $("#A").css("display", "none");
+    } else {
+        $("#B").css("display", "block");
+        $("#A").css("display", "block");
+    }
+
+    try {
+        clearTimeout(cicle);
+    } catch (err) {
+        throw err;
+    }
+    //Execute check function every 2secs
+    cicle = setInterval(check(taxi), 2000);
+})
+
+
+
+
+function check(taxi) {
+    // Functions
+    function ClearPolyMap() {
+        try {
+            // remove polyline and marker
+            mymap.removeLayer(polyline);
+            mymap.removeLayer(myMovingMarker);
+        } catch (err) {
+            console.log(err)
+        };
+    };
+
+    // make an object with taxi input
+    var taxiOption = {
+        taxi: taxi,
+    };
+
+    ClearPolyMap();
+
+
+    xhr.open('POST', '/data', true);
+    xhr.setRequestHeader("Content-type", 'application/json');
+    xhr.send(JSON.stringify(taxiOption));
+
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
             console.log(response)
             // make the innerhtml be equal to the response.lat, .long and .time attributes
-            lat.innerHTML = response.lat;
-            lon.innerHTML = response.lon;
-            var timeObject = new Date(response.time);
-            console.log(timeObject)
-            date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
-            time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
-            var posGPS = [response.lat, response.lon];
+            if (taxi == "A") {
+                lat.innerHTML = response.lat;
+                lon.innerHTML = response.lon;
+                var timeObject = new Date(response.time);
+                console.log(timeObject)
+                date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
+                time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
+                vel.innerHTML = response.vel;
+                var posGPS = [response.lat, response.lon];
+            } else if (taxi = "B") {
+                lat2.innerHTML = response.lat;
+                lon2.innerHTML = response.lon;
+                var timeObject = new Date(response.time);
+                console.log(timeObject)
+                date2.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
+                time2.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
+                var posGPS = [response.lat, response.lon];
+            };
+
+            console.log(taxi);
             // This should only go in this condition only one time, (this is to setting the firt marker)
             if (firstIteration == false) {
                 //set map in the new center, a zoom 20

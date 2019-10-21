@@ -99,23 +99,55 @@
                             <!-- modal-body -->
                             <div class="modal-body">
                                 <div class="shadowBox" id="box1">
-                                    <div class="box2">
-                                        <div class="lat">
-                                            <label class="texto1">Latitud:<p id="lat" class="paragraph texto"> </p>
-                                            </label>
-
+                                    <div class="input-group mb-3">
+                                        <div class=" input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Taxi</label>
                                         </div>
-                                        <div class="long">
-                                            <label class="texto1">Longitud:<p id="lon" class="paragraph texto"> </p>
-                                            </label>
+                                        <select class="custom-select" id="inputGroupSelect01">
+                                            <option selected>Opciones...</option>
+                                            <option value="A">Taxi A</option>
+                                            <option value="B">Taxi B</option>
+                                            <option value="C">Ambos Taxis</option>
+                                        </select>
+                                    </div>
+                                    <button id="ras" type="button" class="btn btn-info">Seguir!</button>
+                                    <hr>
+                                    <div id="A" class="container">
+                                        <div class="row">
+                                            <div class="col-4-md">
+                                                <h2>Taxi A</h2>
+                                            </div>
+                                            <div class="col-8-md texto1">
+                                                <label>Latitud:<p id="lat" class="paragraph texto"> </p>
+                                                </label>
+                                                <label>Longitud:<p id="lon" class="paragraph texto"> </p>
+                                                </label>
+                                                <label>Fecha:<p id="date" class="paragraph texto"> </p>
+                                                </label>
+                                                <label>Tiempo:<p id="time" class="paragraph texto"> </p>
+                                                </label>
+                                                <label>Velocidad:<p id="vel" class="paragraph texto">
+                                                    </p>
+                                                </label>
+                                            </div>
                                         </div>
-                                        <div class="time">
-                                            <label class="texto1">Fecha:<p id="date" class="paragraph texto"> </p>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label class="texto1">Tiempo:<p id="time" class="paragraph texto"> </p>
-                                            </label>
+                                    </div>
+                                    <div class="container" id="B">
+                                        <div class="row">
+                                            <div class="col-4-md">
+                                                <h2>Taxi B</h2>
+                                            </div>
+                                            <div class="col-8-md texto1">
+                                                <label>Latitud:<p id="lat2" class="paragraph texto"> </p>
+                                                </label>
+                                                <label>Longitud:<p id="lon2" class="paragraph texto">
+                                                    </p>
+                                                </label>
+                                                <label>Fecha:<p id="date2" class="paragraph texto"> </p>
+                                                </label>
+                                                <label>Tiempo:<p id="time2" class="paragraph texto"> </p>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
 
