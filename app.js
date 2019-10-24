@@ -55,7 +55,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(bodyParser.json())
+
 // ----------------------
 // make capable the server RESPONSE an http get for the route "/"
 app.get("/", function (req, res) {
@@ -63,6 +63,7 @@ app.get("/", function (req, res) {
 })
 // make capable the server RESPONSE an http get for the route "/data"
 app.post("/data", function (req, res) {
+    console.log(req.body)
     taxi = req.body.taxi;
     if (taxi == "C") {
         taxi = ["A", "B"];
