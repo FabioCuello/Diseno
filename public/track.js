@@ -10,14 +10,22 @@ var time2 = document.getElementById("time2");
 var date2 = document.getElementById("date2");
 // define a counter in 0
 var firstIteration = false;
-var marker
-var myMovingMarker
-var polyline
+var firstIterationA = false;
+var firstIterationB = false;
+var myMovingMarker,
+    movingMarkerA,
+    movingMarkerB;
+var polyline,
+    polylineA,
+    polylineB
 var cicle
 
 
 $("#ras").click(function () {
+    ClearPolyMap();
     firstIteration = false;
+    firstIterationA = false;
+    firstIterationB = false;
     const taxi = $("#inputGroupSelect01").val();
     if (taxi == "A") {
         $("#A").css("display", "block");
@@ -36,75 +44,46 @@ $("#ras").click(function () {
         throw err;
     }
     //Execute check function every 2secs
-    cicle = setInterval(upDateTaxi(taxi), 2000);
+    cicle = setInterval(upDateTaxi, 2000, taxi);
 })
 
 
 
 function upDateTaxi(taxi) {
-    // make an object with taxi input
-    var taxiOption = {
-        taxi: taxi,
-    };
-
-    ClearPolyMap();
-
-
-    $.post("/data", taxiOption, function (data) {
+    $.get("/data", function (data) {
         console.log(data)
         var response = data;
         // make the innerhtml be equal to the response.lat, .long and .time attributes
-        if (taxi == "A") {
+        if (response.device == "A") {
             lat.innerHTML = response.lat;
             lon.innerHTML = response.lon;
             var timeObject = new Date(response.time);
-            console.log(timeObject)
             date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
             time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
             vel.innerHTML = response.vel;
-            var posGPS = [response.lat, response.lon];
-        } else if (taxi = "B") {
+        } else if (response.device = "B") {
             lat2.innerHTML = response.lat;
             lon2.innerHTML = response.lon;
             var timeObject = new Date(response.time);
-            console.log(timeObject)
             date2.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
             time2.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
-            var posGPS = [response.lat, response.lon];
         };
 
+        if (taxi == "A") {
+            var posGPS = [lat.innerHTML, lon.innerHTML];
+            if (lat.innerHTML != " ") {
+                AddIconAndPoly(posGPS);
+                console.log(lat.innerHTML);
+            };
+        } else if (taxi == "B") {
+            var posGPS = [lat2.innerHTML, lon2.innerHTML];
+            if (lat2.innerHTML != " ") {
+                AddIconAndPoly(posGPS);
+            };
+        } else if (taxi == "C") {
+            AddMultipleIconsAndPolymaps([response.lat, response.lon], response.device);
+        };
+        console.log(timeObject);
         console.log(taxi);
-        // This should only go in this condition only one time, (this is to setting the firt marker)
-        if (firstIteration == false) {
-            //set map in the new center, a zoom 20
-            mymap.flyTo(posGPS, 20);
-            // moving marker
-            myMovingMarker = L.Marker.movingMarker([
-                    posGPS,
-                    posGPS
-                ],
-                [1000]);
-            myMovingMarker.options.icon = taximarker;
-            mymap.addLayer(myMovingMarker);
-            // polyline
-            polyline = L.polyline([
-                posGPS,
-                posGPS
-            ], {
-                color: '#FACB01'
-            });
-            polyline.addTo(mymap);
-            firstIteration = true;
-        } else {
-            //move map to new coordinates
-            mymap.flyTo(posGPS);
-            // mov marker to new position
-            myMovingMarker.moveTo(posGPS, 3000)
-            // add new polyline position
-            setTimeout(function () {
-                polyline.addLatLng(posGPS);
-            }, 3000)
-            //...
-        }
     }, "json");
 }

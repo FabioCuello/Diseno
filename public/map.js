@@ -44,10 +44,16 @@ L.control.layers(baseMaps, overlays, {
 
 // Set icon
 var taximarker = L.icon({
-    iconUrl: 'taxi.png',
+    iconUrl: 'images/taxi.png',
     iconSize: [70, 70],
     popupAnchor: [-3, -76],
 })
+
+
+
+// functions
+
+
 
 function ClearPolyMap() {
     try {
@@ -55,6 +61,93 @@ function ClearPolyMap() {
         mymap.removeLayer(polyline);
         mymap.removeLayer(myMovingMarker);
     } catch (err) {
-        console.log(err)
+
+    };
+    try {
+        mymap.removeLayer(polylineA);
+        mymap.removeLayer(movingMarkerA);
+    } catch (err) {
+
+    };
+    try {
+        mymap.removeLayer(polylineB);
+        mymap.removeLayer(movingMarkerB);
+    } catch (err) {
+
     };
 };
+
+function AddIconAndPoly(posGPS) {
+    if (firstIteration == false) {
+        //set map in the new center, a zoom 20
+        mymap.flyTo(posGPS, 20);
+        // create moving marker
+        myMovingMarker = L.Marker.movingMarker([posGPS, posGPS], [1000]);
+        myMovingMarker.options.icon = taximarker;
+
+        // create polyline
+        polyline = L.polyline([posGPS, posGPS], {
+            color: '#FACB01'
+        });
+        // add moving marker and polyline to the layer
+        mymap.addLayer(myMovingMarker);
+        polyline.addTo(mymap);
+        firstIteration = true;
+    } else {
+        //move map to new coordinates
+        mymap.flyTo(posGPS);
+        // mov marker to new position
+        myMovingMarker.moveTo(posGPS, 3000)
+        // add new polyline position
+        setTimeout(function () {
+            polyline.addLatLng(posGPS);
+        }, 3000)
+    };
+}
+
+function AddMultipleIconsAndPolymaps(coords, device) {
+    if (device == "A") {
+        if (firstIterationA == false) {
+            movingMarkerA = L.Marker.movingMarker([coords, coords], [1000]);
+            movingMarkerA.options.icon = taximarker;
+
+            // create polyline
+            polylineA = L.polyline([coords, coords], {
+                color: '#FACB01'
+            });
+            // add moving marker and polyline to the layer
+            mymap.addLayer(movingMarkerA);
+            polylineA.addTo(mymap);
+            firstIterationA = true;
+        } else {
+            // mov marker to new position
+            movingMarkerA.moveTo(coords, 3000)
+            // add new polyline position
+            setTimeout(function () {
+                polylineA.addLatLng(coords);
+            }, 3000)
+        }
+    } else if (device == "B") {
+        if (firstIterationB == false) {
+            movingMarkerB = L.Marker.movingMarker([coords, coords], [1000]);
+            movingMarkerB.options.icon = taximarker;
+
+            // create polyline
+            polylineB = L.polyline([coords, coords], {
+                color: '#FACB01'
+            });
+            // add moving marker and polyline to the layer
+            mymap.addLayer(movingMarkerB);
+            polylineB.addTo(mymap);
+            firstIterationB = true;
+        } else {
+            // mov marker to new position
+            movingMarkerB.moveTo(coords, 3000)
+            // add new polyline position
+            setTimeout(function () {
+                polylineB.addLatLng(coords);
+            }, 3000)
+        };
+    }
+
+}
