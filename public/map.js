@@ -75,6 +75,20 @@ function ClearPolyMap() {
     } catch (err) {
 
     };
+    try {
+        // remove polyline and marker
+        mymap2.removeLayer(polyline2MapA);
+        mymap2.removeLayer(myMovingMarker2A);
+    } catch (err) {
+
+    };
+    try {
+        // remove polyline and marker
+        mymap2.removeLayer(polyline2MapB);
+        mymap2.removeLayer(myMovingMarker2B);
+    } catch (err) {
+
+    };
 };
 
 function AddIconAndPoly(posGPS) {

@@ -19,6 +19,8 @@ var taximarker2 = L.icon({
 
 // Declaring variables
 var vectorCoord = [],
+    vectorCoordA = [],
+    vectorCoordB = [],
     polyline2Map = [],
     myMovingMarker2;
 // declaring new XMLHttpRequest object
@@ -26,13 +28,7 @@ var xhr2 = new XMLHttpRequest();
 
 // When search is press them...
 $("#search").on("click", function () {
-    try {
-        // remove polyline and marker
-        mymap2.removeLayer(polyline2Map);
-        mymap2.removeLayer(myMovingMarker2);
-    } catch (err) {
-        console.log(err)
-    };
+    ClearPolyMap();
     // 
     if ($("#finaldate").val() == "" || $("#initdate").val() == "") {
         if ($("#finaldate").val() == "" & $("#initdate").val() == "") {
@@ -68,6 +64,8 @@ $("#search").on("click", function () {
 
     // init vectorCoord empty
     vectorCoord = [];
+    vectorCoordA = [];
+    vectorCoordB = [];
 
 
     xhr2.onreadystatechange = function () {
@@ -75,24 +73,48 @@ $("#search").on("click", function () {
             var response = JSON.parse(xhr2.responseText);
             // push every lat and lon into the vectorCoord
             response.forEach(function (positions) {
-                vectorCoord.push([positions.lat, positions.lon]);
+                if (positions.device == "A") {
+                    vectorCoordA.push([positions.lat, positions.lon]);
+                } else {
+                    vectorCoordB.push([positions.lat, positions.lon]);
+                }
             })
-            setTimeout(function () {
-                // polyline
-                polyline2Map = L.polyline(vectorCoord, {
-                    color: '#FACB01'
+            // polyline
+            polyline2MapA = L.polyline(vectorCoordA, {
+                color: '#FACB01'
+            });
+            polyline2MapB = L.polyline(vectorCoordB, {
+                color: '#FACB01'
+            });
+            // marker
+            myMovingMarker2A = L.Marker.movingMarker(vectorCoordA,
+                10000, {
+                    autostart: true,
+                    loop: true
                 });
-                // marker
-                myMovingMarker2 = L.Marker.movingMarker(vectorCoord,
-                    10000, {
-                        autostart: true,
-                        loop: true
-                    });
-                myMovingMarker2.options.icon = taximarker2;
+            myMovingMarker2B = L.Marker.movingMarker(vectorCoordB,
+                10000, {
+                    autostart: true,
+                    loop: true
+                });
+
+            myMovingMarker2A.options.icon = taximarker2;
+            myMovingMarker2B.options.icon = taximarker2;
+            // criterio de selección, mostrar uno u el otro
+            const taxi2 = $("#inputGroupSelect02").val();
+            if (taxi2 == "C") {
                 // add polyline and marker to the map
-                mymap2.addLayer(myMovingMarker2);
-                polyline2Map.addTo(mymap2);
-            }, 1);
+                mymap2.addLayer(myMovingMarker2B);
+                mymap2.addLayer(myMovingMarker2A);
+                polyline2MapA.addTo(mymap2);
+                polyline2MapB.addTo(mymap2);
+            } else if (taxi2 == "A") {
+                mymap2.addLayer(myMovingMarker2A);
+                polyline2MapA.addTo(mymap2);
+            } else {
+                mymap2.addLayer(myMovingMarker2B);
+                polyline2MapB.addTo(mymap2);
+            }
         }
     }
 })

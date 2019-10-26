@@ -170,6 +170,7 @@
                                     Seleccione la franja de tiempo que
                                     desea consultar.
                                 </h1>
+
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -178,7 +179,7 @@
                                 <div class="row">
                                     <div class='col-md-6 col-sm-6 col-xs-6'>
                                         <div class="form-group">
-                                            <div class='input-group date' id='datetimepicker6'>
+                                            <div class='input-group date' style="display: table;" id='datetimepicker6'>
                                                 <input id="initdate" type='text' class="form-control"
                                                     placeholder="Fecha de inicio" />
                                                 <span class="input-group-addon">
@@ -189,7 +190,7 @@
                                     </div>
                                     <div class='col-md-6 col-sm-6 col-xs-6'>
                                         <div class="form-group">
-                                            <div class='input-group date' id='datetimepicker7'>
+                                            <div class='input-group date' style="display: table;" id='datetimepicker7'>
                                                 <input id="finaldate" type='text' class="form-control"
                                                     placeholder="Fecha de finalización" />
                                                 <span class="input-group-addon">
@@ -198,6 +199,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="inputGroupSelect02">Taxi</label>
+                                    </div>
+                                    <select class="custom-select" id="inputGroupSelect02">
+                                        <option selected>Opciones...</option>
+                                        <option value="A">Taxi A</option>
+                                        <option value="B">Taxi B</option>
+                                        <option value="C">Ambos Taxis</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <div id="mapid2"></div>
