@@ -30,12 +30,12 @@ server.on('message', function (message, remote) {
         lat: newdateLat.toFixed(5),
         lon: newdateLong.toFixed(4),
         time: parseInt(newdate[2]),
-        speed: parseFloat(newdate[3]),
-        device: newdate[4]
+        device: newdate[3],
+        speed: parseFloat(newdate[4]),
     };
     console.log(data2send);
     // insert into db
-    var query = pool.query('INSERT INTO diseno (lat, lon, time, speed, device) VALUES (?,?,?,?,?)', [data2send.lat, data2send.lon, data2send.time, data2send.speed, data2send.device], function (error, results, fields) {
+    var query = pool.query('INSERT INTO diseno (lat, lon, time, device, speed) VALUES (?,?,?,?,?)', [data2send.lat, data2send.lon, data2send.time, data2send.device, data2send.speed], function (error, results, fields) {
         if (error) throw error;
         else {
             // set data2send properties with the last pushed item in data array
@@ -89,8 +89,6 @@ app.post("/consult", function (req, res) {
             console.log("error in query " + err)
         } else {
             if (results.length != 0) {
-                //select the last data 
-                console.log(results);
                 res.send(results);
                 //send data2send object to the js client side
             };

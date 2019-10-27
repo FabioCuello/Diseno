@@ -11,23 +11,27 @@ L.control.layers(baseMaps, overlays, {
 }).addTo(mymap2);
 
 var taximarker2 = L.icon({
-    iconUrl: 'taxi.png',
+    iconUrl: 'images/taxi.png',
     iconSize: [35, 35],
     popupAnchor: [-3, -76],
 })
 
 
 // Declaring variables
-var vectorCoord = [],
-    vectorCoordA = [],
+var vectorCoordA = [],
     vectorCoordB = [],
     polyline2Map = [],
-    myMovingMarker2;
+    myMovingMarker2A,
+    myMovingMarker2B
 // declaring new XMLHttpRequest object
-var xhr2 = new XMLHttpRequest();
 
 // When search is press them...
 $("#search").on("click", function () {
+    try {
+        clearTimeout(cicle);
+    } catch (err) {
+        throw err;
+    }
     ClearPolyMap();
     // 
     if ($("#finaldate").val() == "" || $("#initdate").val() == "") {
@@ -56,67 +60,58 @@ $("#search").on("click", function () {
     };
     console.log(dateRange);
 
-    // setting the request method
-    xhr2.open('POST', '/consult', true);
-    //send the get request as a jSON
-    xhr2.setRequestHeader("Content-type", 'application/json');
-    xhr2.send(JSON.stringify(dateRange));
-
     // init vectorCoord empty
-    vectorCoord = [];
     vectorCoordA = [];
     vectorCoordB = [];
 
 
-    xhr2.onreadystatechange = function () {
-        if (xhr2.readyState == 4 && xhr2.status == 200) {
-            var response = JSON.parse(xhr2.responseText);
-            // push every lat and lon into the vectorCoord
-            response.forEach(function (positions) {
-                if (positions.device == "A") {
-                    vectorCoordA.push([positions.lat, positions.lon]);
-                } else {
-                    vectorCoordB.push([positions.lat, positions.lon]);
-                }
-            })
-            // polyline
-            polyline2MapA = L.polyline(vectorCoordA, {
-                color: '#FACB01'
-            });
-            polyline2MapB = L.polyline(vectorCoordB, {
-                color: '#FACB01'
-            });
-            // marker
-            myMovingMarker2A = L.Marker.movingMarker(vectorCoordA,
-                10000, {
-                    autostart: true,
-                    loop: true
-                });
-            myMovingMarker2B = L.Marker.movingMarker(vectorCoordB,
-                10000, {
-                    autostart: true,
-                    loop: true
-                });
-
-            myMovingMarker2A.options.icon = taximarker2;
-            myMovingMarker2B.options.icon = taximarker2;
-            // criterio de selección, mostrar uno u el otro
-            const taxi2 = $("#inputGroupSelect02").val();
-            if (taxi2 == "C") {
-                // add polyline and marker to the map
-                mymap2.addLayer(myMovingMarker2B);
-                mymap2.addLayer(myMovingMarker2A);
-                polyline2MapA.addTo(mymap2);
-                polyline2MapB.addTo(mymap2);
-            } else if (taxi2 == "A") {
-                mymap2.addLayer(myMovingMarker2A);
-                polyline2MapA.addTo(mymap2);
+    $.post("/consult", dateRange, function (response) {
+        console.log(response);
+        // push every lat and lon into the vectorCoord
+        response.forEach(function (positions) {
+            if (positions.device == "A") {
+                vectorCoordA.push([positions.lat, positions.lon]);
             } else {
-                mymap2.addLayer(myMovingMarker2B);
-                polyline2MapB.addTo(mymap2);
+                vectorCoordB.push([positions.lat, positions.lon]);
             }
+        });
+        // polyline
+        polyline2MapA = L.polyline(vectorCoordA, {
+            color: '#FACB01'
+        });
+        polyline2MapB = L.polyline(vectorCoordB, {
+            color: '#FACB01'
+        });
+        // marker
+        myMovingMarker2A = L.Marker.movingMarker(vectorCoordA,
+            10000, {
+                autostart: true,
+                loop: true
+            });
+        myMovingMarker2B = L.Marker.movingMarker(vectorCoordB,
+            10000, {
+                autostart: true,
+                loop: true
+            });
+
+        myMovingMarker2A.options.icon = taximarker2;
+        myMovingMarker2B.options.icon = taximarker2;
+        // criterio de selección, mostrar uno u el otro
+        const taxi2 = $("#inputGroupSelect02").val();
+        if (taxi2 == "C") {
+            // add polyline and marker to the map
+            mymap2.addLayer(myMovingMarker2B);
+            mymap2.addLayer(myMovingMarker2A);
+            polyline2MapA.addTo(mymap2);
+            polyline2MapB.addTo(mymap2);
+        } else if (taxi2 == "A") {
+            mymap2.addLayer(myMovingMarker2A);
+            polyline2MapA.addTo(mymap2);
+        } else {
+            mymap2.addLayer(myMovingMarker2B);
+            polyline2MapB.addTo(mymap2);
         }
-    }
+    });
 })
 
 
