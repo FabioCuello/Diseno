@@ -60,7 +60,7 @@ function upDateTaxi(taxi) {
             var timeObject = new Date(response.time);
             date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
             time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
-            vel.innerHTML = response.vel;
+            vel.innerHTML = response.speed;
         } else if (response.device = "B") {
             lat2.innerHTML = response.lat;
             lon2.innerHTML = response.lon;
