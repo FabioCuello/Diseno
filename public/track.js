@@ -8,6 +8,9 @@ var lat2 = document.getElementById("lat2");
 var lon2 = document.getElementById("lon2");
 var time2 = document.getElementById("time2");
 var date2 = document.getElementById("date2");
+var Vmin = document.getElementById("vmin");
+var Vmax = document.getElementById("vmax");
+
 // define a counter in 0
 var firstIteration = false;
 var firstIterationA = false;
@@ -27,6 +30,10 @@ $("#ras").click(function () {
     firstIterationA = false;
     firstIterationB = false;
     const taxi = $("#inputGroupSelect01").val();
+    if (taxi != "A" && taxi != "B" && taxi != "C") {
+        alert("Tome un taxi para seguir");
+        return false;
+    }
     if (taxi == "A") {
         $("#A").css("display", "block");
         $("#B").css("display", "none");

@@ -22,8 +22,9 @@ var vectorCoordA = [],
     vectorCoordB = [],
     polyline2Map = [],
     myMovingMarker2A,
-    myMovingMarker2B
-// declaring new XMLHttpRequest object
+    myMovingMarker2B,
+    vectorSpeed = []
+
 
 // When search is press them...
 $("#search").on("click", function () {
@@ -42,6 +43,13 @@ $("#search").on("click", function () {
         } else {
             alert("Indique una fecha inicial");
         }
+        return
+    }
+    const taxi2 = $("#inputGroupSelect02").val();
+
+    if (taxi2 != "A" && taxi2 != "B" && taxi2 != "C") {
+        console.log(taxi2)
+        alert("Seleccione el taxi el cual consultar");
         return
     }
     var input1 = $("#initdate").val().split(" ");
@@ -63,7 +71,7 @@ $("#search").on("click", function () {
     // init vectorCoord empty
     vectorCoordA = [];
     vectorCoordB = [];
-
+    vectorSpeed = [];
 
     $.post("/consult", dateRange, function (response) {
         console.log(response);
@@ -71,16 +79,18 @@ $("#search").on("click", function () {
         response.forEach(function (positions) {
             if (positions.device == "A") {
                 vectorCoordA.push([positions.lat, positions.lon]);
-            } else {
+                vectorSpeed.push([positions.speed]);
+            } else if (positions.device == "B") {
                 vectorCoordB.push([positions.lat, positions.lon]);
-            }
+            };
         });
+
         // polyline
         polyline2MapA = L.polyline(vectorCoordA, {
             color: '#FACB01'
         });
         polyline2MapB = L.polyline(vectorCoordB, {
-            color: '#FACB01'
+            color: '#000000'
         });
         // marker
         myMovingMarker2A = L.Marker.movingMarker(vectorCoordA,
@@ -97,19 +107,25 @@ $("#search").on("click", function () {
         myMovingMarker2A.options.icon = taximarker2;
         myMovingMarker2B.options.icon = taximarker2;
         // criterio de selección, mostrar uno u el otro
-        const taxi2 = $("#inputGroupSelect02").val();
+
         if (taxi2 == "C") {
             // add polyline and marker to the map
             mymap2.addLayer(myMovingMarker2B);
             mymap2.addLayer(myMovingMarker2A);
             polyline2MapA.addTo(mymap2);
             polyline2MapB.addTo(mymap2);
+            Vmin.innerHTML = Math.min(...vectorSpeed);
+            Vmax.innerHTML = Math.max(...vectorSpeed);
         } else if (taxi2 == "A") {
             mymap2.addLayer(myMovingMarker2A);
             polyline2MapA.addTo(mymap2);
-        } else {
+            Vmin.innerHTML = Math.min(...vectorSpeed);
+            Vmax.innerHTML = Math.max(...vectorSpeed);
+        } else if (taxi2 == "B") {
             mymap2.addLayer(myMovingMarker2B);
             polyline2MapB.addTo(mymap2);
+            Vmin.innerHTML = 0;
+            Vmax.innerHTML = 0;
         }
     });
 })
