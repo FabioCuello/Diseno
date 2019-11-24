@@ -51,7 +51,7 @@ $("#ras").click(function () {
         throw err;
     }
     //Execute check function every 2secs
-    cicle = setInterval(upDateTaxi, 2000, taxi);
+    cicle = setInterval(upDateTaxi, 1000, taxi);
 })
 
 
@@ -61,20 +61,18 @@ function upDateTaxi(taxi) {
         console.log(data)
         var response = data;
         // make the innerhtml be equal to the response.lat, .long and .time attributes
-        if (response.device == "A") {
-            lat.innerHTML = response.lat;
-            lon.innerHTML = response.lon;
-            var timeObject = new Date(response.time);
-            date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
-            time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
-            vel.innerHTML = response.speed;
-        } else if (response.device = "B") {
-            lat2.innerHTML = response.lat;
-            lon2.innerHTML = response.lon;
-            var timeObject = new Date(response.time);
-            date2.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
-            time2.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
-        };
+        lat.innerHTML = response[0].lat;
+        lon.innerHTML = response[0].lon;
+        var timeObject = new Date(response[0].time);
+        date.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
+        time.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
+
+        vel.innerHTML = response[1].speed;
+        lat2.innerHTML = response[1].lat;
+        lon2.innerHTML = response[1].lon;
+        var timeObject = new Date(response[1].time);
+        date2.innerHTML = timeObject.getDate() + "/" + (timeObject.getMonth() + 1) + "/" + timeObject.getFullYear()
+        time2.innerHTML = timeObject.getHours() + ":" + timeObject.getMinutes() + ":" + timeObject.getSeconds();
 
         if (taxi == "A") {
             var posGPS = [lat.innerHTML, lon.innerHTML];
@@ -88,7 +86,7 @@ function upDateTaxi(taxi) {
                 AddIconAndPoly(posGPS);
             };
         } else if (taxi == "C") {
-            AddMultipleIconsAndPolymaps([response.lat, response.lon], response.device);
+            AddMultipleIconsAndPolymaps(response);
         };
         console.log(timeObject);
         console.log(taxi);

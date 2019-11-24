@@ -27,8 +27,8 @@ server.on('message', function (message, remote) {
     var newdateLat = parseFloat(newdate[0]);
     var newdateLong = parseFloat(newdate[1]);
     var data2send = {
-        lat: newdateLat.toFixed(5),
-        lon: newdateLong.toFixed(4),
+        lat: newdateLat,
+        lon: newdateLong,
         time: parseInt(newdate[2]),
         device: newdate[3],
         speed: parseFloat(newdate[4]),
@@ -66,14 +66,23 @@ app.get("/", function (req, res) {
 // make capable the server RESPONSE an http get for the route "/data"
 app.get("/data", function (req, res) {
     // open database
-    pool.query('SELECT * FROM `diseno` ORDER BY num DESC LIMIT 1', function (err, results, fields) {
+    pool.query('SELECT * FROM `diseno` WHERE device ="A" ORDER BY num DESC LIMIT 1', function (err, resultsA, fields) {
         if (err) {
             console.log("error in query " + err)
         } else {
-            if (results.length != 0) {
-                //select the last data 
-                //send data2send object to the js client side
-                res.send(JSON.stringify(results[0]));
+            if (resultsA.length != 0) {
+                pool.query('SELECT * FROM `diseno`WHERE device ="B" ORDER BY num DESC LIMIT 1', function (err, results, fields) {
+                    if (err) {
+                        console.log("error in query" + err)
+                    } else {
+                        if (results.length != 0) {
+                            var respuesta = [resultsA[0], results[0]];
+                            console.log(respuesta);
+                            res.send(JSON.stringify(respuesta));
+
+                        };
+                    };
+                });
             };
         };
     });

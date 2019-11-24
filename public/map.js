@@ -119,8 +119,9 @@ function AddIconAndPoly(posGPS) {
     };
 }
 
-function AddMultipleIconsAndPolymaps(coords, device) {
-    if (device == "A") {
+function AddMultipleIconsAndPolymaps(response) {
+    if (response[0].device == "A") {
+        var coords = [response[0].lat, response[0].lon]
         if (firstIterationA == false) {
             movingMarkerA = L.Marker.movingMarker([coords, coords], [1000]);
             movingMarkerA.options.icon = taximarker;
@@ -141,13 +142,15 @@ function AddMultipleIconsAndPolymaps(coords, device) {
                 polylineA.addLatLng(coords);
             }, 3000)
         }
-    } else if (device == "B") {
+    }
+    if (response[1].device == "B") {
+        var coords2 = [response[1].lat, response[1].lon]
         if (firstIterationB == false) {
-            movingMarkerB = L.Marker.movingMarker([coords, coords], [1000]);
+            movingMarkerB = L.Marker.movingMarker([coords2, coords2], [1000]);
             movingMarkerB.options.icon = taximarker;
 
             // create polyline
-            polylineB = L.polyline([coords, coords], {
+            polylineB = L.polyline([coords2, coords2], {
                 color: '#FACB01'
             });
             // add moving marker and polyline to the layer
@@ -156,11 +159,11 @@ function AddMultipleIconsAndPolymaps(coords, device) {
             firstIterationB = true;
         } else {
             // mov marker to new position
-            movingMarkerB.moveTo(coords, 3000)
+            movingMarkerB.moveTo(coords2, 1000)
             // add new polyline position
             setTimeout(function () {
-                polylineB.addLatLng(coords);
-            }, 3000)
+                polylineB.addLatLng(coords2);
+            }, 1000)
         };
     }
 
