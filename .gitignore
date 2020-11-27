@@ -4,4 +4,3 @@ package-lock.json
 node_modules
 bower.json
 bower_components
-.env
