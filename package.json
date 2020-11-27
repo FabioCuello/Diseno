@@ -2,19 +2,22 @@
   "name": "diseno_2",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "mkdir -p database/data && nodemon src/index.mjs",
+    "start": "mkdir -p database/data && node src/index.mjs "
   },
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bower": "^1.8.8",
     "dgram": "^1.0.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "gps-time": "^1.0.3",
-    "mysql": "^2.17.1",
+    "mysql2": "^2.2.5",
     "nodemon": "^1.19.2"
   }
 }
