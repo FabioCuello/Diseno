@@ -20,8 +20,13 @@ and
 + Udp server: 127.0.0.1:3001
 
 ## Use
-+ #### UDP packet
++ #### UDP package format
 
-{latitude,longitude,time,"A or B", speed}
+{latitude,longitude,time,device,speed}
 
+#### Datatype
++ Latitude, Longitude <- Real 
++ time <- Int
++ Device <- String (Just "A" or "B")
++ Speed <- Real
 
